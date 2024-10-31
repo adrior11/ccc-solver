@@ -3,10 +3,10 @@ pub fn solve(input_lines: Vec<String>) -> Vec<String> {
 
     for line in input_lines.iter().skip(1) {
         for c in line.chars() {
-            // TODO: complete level algorithm
+            // NOTE: complete level algorithm
         }
 
-        // TODO: push output
+        // NOTE: push output
         out.push(o);
     }
 
