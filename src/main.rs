@@ -12,6 +12,9 @@ use clap::Parser;
 // mod level6;
 // mod level7;
 
+const INPUT_DIR: &str = "src/input";
+const OUTPUT_DIR: &str = "src/output";
+
 #[derive(Parser)]
 struct Cli {
     level: usize,
@@ -21,17 +24,13 @@ struct Cli {
 fn read_lines(path: &str) -> Result<Vec<String>> {
     let content = fs::read_to_string(path)
         .with_context(|| format!("Could not read file at path: {}", path))?;
-    let lines = content.lines().map(|line| line.to_string()).collect();
+    let lines = content.lines().map(str::to_string).collect();
     Ok(lines)
 }
 
-fn print_lines(vec: &[String]) {
-    vec.iter().for_each(|line| println!("{line}"));
-}
-
 fn build_path(level: usize, sub_level: &str, is_output: bool) -> String {
-    let (dir, file_type) = if is_output { ("output", "out") } else { ("input", "in") };
-    format!("src/{}/level{}/level{}_{}.{}", dir, level, level, sub_level, file_type)
+    let (dir, file_type) = if is_output { (OUTPUT_DIR, "out") } else { (INPUT_DIR, "in") };
+    format!("{}/level{}/level{}_{}.{}", dir, level, level, sub_level, file_type)
 }
 
 fn get_level_input_path(args: &Cli) -> Result<String> {
@@ -42,19 +41,19 @@ fn get_level_input_path(args: &Cli) -> Result<String> {
     Ok(build_path(args.level, &sub_level, false))
 }
 
-fn compare_output(out: Vec<String>, level: usize) -> Result<()> {
-    let example_out_path = format!("src/input/level{}/level{}_example.out", level, level);
-    let result = read_lines(&example_out_path)?;
+fn compare_output(output: Vec<String>, level: usize) -> Result<()> {
+    let expected_output_path = format!("{}/level{}/level{}_example.out", INPUT_DIR, level, level);
+    let expected_output = read_lines(&expected_output_path)?;
 
-    if out == result {
-        println!("Solution matches example!");
+    if output == expected_output {
+        println!("Solution matches expected output!");
         generate_output_files(level)?;
     } else {
-        let line = "-".repeat(20);
-        println!("\n{}- Output -{}", line, line);
-        print_lines(&out);
-        println!("\n{} Expected {}", line, line);
-        print_lines(&result);
+        println!(
+            "----------- Output -----------\n{}\n\n---------- Expected ----------\n{}",
+            output.join("\n"),
+            expected_output.join("\n")
+        );
     }
 
     Ok(())
@@ -62,8 +61,8 @@ fn compare_output(out: Vec<String>, level: usize) -> Result<()> {
 
 #[allow(dead_code)]
 fn generate_output_files(level: usize) -> Result<()> {
-    let input_dir = format!("src/input/level{}", level);
-    let output_dir = format!("src/output/level{}", level);
+    let input_dir = format!("{}/level{}", INPUT_DIR, level);
+    let output_dir = format!("{}/level{}", OUTPUT_DIR, level);
 
     // Create output directory if it doesn't exist
     fs::create_dir_all(&output_dir)
@@ -83,18 +82,16 @@ fn generate_output_files(level: usize) -> Result<()> {
         }
 
         let sub_level = file_name
-            .trim_start_matches(&format!("level{}_{}", level, ""))
-            .trim_end_matches(".in");
-        
-        // Skip example files
-        if sub_level == "example" {
-            continue;
-        }
+            .strip_prefix(&format!("level{}_", level))
+            .and_then(|s| s.strip_suffix(".in"))
+            .filter(|&s| s != "example");
 
-        let input_lines = read_lines(path.to_str().unwrap())?;
-        let output = solve_level(level, input_lines);
-        let output_path = build_path(level, sub_level, true);
-        write_output_file(output_path, output)?;
+        if let Some(sub_level) = sub_level {
+            let input_lines = read_lines(path.to_str().unwrap())?;
+            let output = solve_level(level, input_lines);
+            let output_path = build_path(level, sub_level, true);
+            write_output_file(output_path, output)?;
+        }
     }
 
     Ok(())
