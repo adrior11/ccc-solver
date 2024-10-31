@@ -1,0 +1,15 @@
+pub fn solve(input_lines: Vec<String>) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+
+    for line in input_lines.iter().skip(1) {
+        for c in line.chars() {
+            // TODO: complete level algorithm
+        }
+
+        // TODO: push output
+        out.push(o);
+    }
+
+    out
+}
+
