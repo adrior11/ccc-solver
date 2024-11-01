@@ -12,6 +12,8 @@ use clap::Parser;
 // mod level6;
 // mod level7;
 
+const FORCE_WRITE: bool = false;
+
 const INPUT_DIR: &str = "src/input";
 const OUTPUT_DIR: &str = "src/output";
 
@@ -45,8 +47,16 @@ fn compare_output(output: Vec<String>, level: usize) -> Result<()> {
     let expected_output_path = format!("{}/level{}/level{}_example.out", INPUT_DIR, level, level);
     let expected_output = read_lines(&expected_output_path)?;
 
-    if output == expected_output {
-        println!("Solution matches expected output!");
+    if FORCE_WRITE || output == expected_output {
+        if output == expected_output && !FORCE_WRITE {
+            println!("Solution matches expected output!");
+        } else if FORCE_WRITE {
+            println!(
+                "-------- Forced Output --------\n{}\n",
+                output.join("\n")
+            );
+        }
+
         generate_output_files(level)?;
     } else {
         println!(
