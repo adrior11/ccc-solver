@@ -3,7 +3,7 @@ use std::io::Write;
 use anyhow::{Context, Result};
 use clap::Parser;
 
-// NOTE: uncomment levels as needed
+// NOTE: uncomment levels
 // mod level1;
 // mod level2;
 // mod level3;
@@ -18,8 +18,13 @@ const INPUT_DIR: &str = "src/input";
 const OUTPUT_DIR: &str = "src/output";
 
 #[derive(Parser)]
+#[command(author, version, about = "A minimalistic and flexible Cloudflight Coding Contest rust solver", long_about = None)]
 struct Cli {
+    /// The level to solve
+    #[arg(value_name = "LEVEL_NUMBER")]
     level: usize,
+    /// The optional sub level to solve 
+    #[arg(value_name = "SUB_LEVEL_NUMBER")]
     sub_level: Option<usize>,
 }
 
