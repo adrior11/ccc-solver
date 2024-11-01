@@ -1,7 +1,13 @@
 [package]
-name = "ccc"
+name = "ccc-solver"
 version = "0.1.0"
 edition = "2021"
+authors = ["Adrian Schneider <adrian.schneider11@icloud.com>"]
+description = "A simple and minimalistic Cloudflight Coding Contest rust solver"
+repository = "https://github.com/adrior11/ccc-solver"
+readme = "README.md"
+keywords = ["cloudflight", "solver", "contest"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 anyhow = "1.0.91"
