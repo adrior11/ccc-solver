@@ -3,11 +3,6 @@
 This project is designed to streamline the process of solving levels in the [Cloudflight Coding Contest](https://register.codingcontest.org) (CCC) quickly and efficiently.
 By setting up a structured approach to file handling, input/output verification, and code organization, you'll have more time to focus on developing algorithms for each challenge.
 
-## 🌍 About the CCC
-The CCC is an awesome coding challenge held all over the world, and I’ve had a blast participating in it, as it's hosted at my university. 
-The atmosphere is super friendly, and it’s just great to be around other people who love coding too.
-It’s not all about winning, but with the pizza we got, I’d call that an absolute win!
-
 ## 🛠️ Before the Contest
 
 ### Installation
