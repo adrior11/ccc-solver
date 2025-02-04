@@ -320,6 +320,6 @@ Since each level's algorithm is isolated in its respective file (e.g., `level1.r
     └── level.example # Template for new levels
 ```
 
-## ⚖️ License
+## License
 
 This project is open source and available under the MIT License.
