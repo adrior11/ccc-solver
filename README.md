@@ -71,10 +71,6 @@ Each CCC level includes a zip file with specific inputs.
 Move the zip file to the `src/input` directory and unzip it, creating a folder named after the level, which will contain the `.in` files as well as `example.in` and `example.out` files.
 The solver uses these files for solution verification.
 
-> [!IMPORTANT]
-> Unlike the `src/output` directory, the `src/input` directory is not created automatically.
-> You may need to add it manually, for example, by running `$ mkdir src/input` from the project root.
-
 ### Writting the Algorithm for a Level
 
 The `level.example` file serves as a blueprint for each level.
